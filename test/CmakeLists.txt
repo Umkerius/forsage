@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.0)
+project(forsage_test)
+
+include_directories(../include ../../boost)
+
+set(patterns *.cc *.cpp *.cxx *.h *.hpp)
+file(GLOB tests ${patterns})
+add_executable(forsage_test ${tests})
