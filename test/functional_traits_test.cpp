@@ -47,37 +47,37 @@ BOOST_AUTO_TEST_CASE(FunctionalTraitsTest)
     BOOST_CHECK(functional_traits<decltype(const_method)>::is_functional::value == true);
     BOOST_CHECK(functional_traits<functional_object>::is_functional::value == true);
     BOOST_CHECK(functional_traits<functional_object_const>::is_functional::value == true);
-	BOOST_CHECK(functional_traits<std::function<int()>>::is_functional::value == true);
+    BOOST_CHECK(functional_traits<std::function<int()>>::is_functional::value == true);
     BOOST_CHECK(functional_traits<decltype(lambda)>::is_functional::value == true);
 }
 
 BOOST_AUTO_TEST_CASE(FunctionTraitsTest)
 {
-	using traits = functional_traits<decltype(function)>;
+    using traits = functional_traits<decltype(function)>;
 
-	BOOST_CHECK(traits::is_functional::value == true);
-	BOOST_CHECK((std::is_same<traits::return_type, int>::value == true));
-	BOOST_CHECK(std::tuple_size<traits::arguments>::value == 0);
+    BOOST_CHECK(traits::is_functional::value == true);
+    BOOST_CHECK((std::is_same<traits::return_type, int>::value == true));
+    BOOST_CHECK(std::tuple_size<traits::arguments>::value == 0);
 }
 
 BOOST_AUTO_TEST_CASE(RefFunctionTraitsTest)
 {
-	using traits = functional_traits<decltype(ref_function)>;
+    using traits = functional_traits<decltype(ref_function)>;
 
-	BOOST_CHECK(traits::is_functional::value == true);
-	BOOST_CHECK((std::is_same<traits::return_type, int&>::value == true));
-	BOOST_CHECK(std::tuple_size<traits::arguments>::value == 2);
-	BOOST_CHECK((std::is_same<traits::arguments, std::tuple<void*, size_t>>::value == true));
+    BOOST_CHECK(traits::is_functional::value == true);
+    BOOST_CHECK((std::is_same<traits::return_type, int&>::value == true));
+    BOOST_CHECK(std::tuple_size<traits::arguments>::value == 2);
+    BOOST_CHECK((std::is_same<traits::arguments, std::tuple<void*, size_t>>::value == true));
 }
 
 BOOST_AUTO_TEST_CASE(CRefFunctionTraitsTest)
 {
-	using traits = functional_traits<decltype(cref_function)>;
+    using traits = functional_traits<decltype(cref_function)>;
 
-	BOOST_CHECK(traits::is_functional::value == true);
-	BOOST_CHECK((std::is_same<traits::return_type, const int&>::value == true));
-	BOOST_CHECK(std::tuple_size<traits::arguments>::value == 2);
-	BOOST_CHECK((std::is_same<traits::arguments, std::tuple<void*, size_t&>>::value == true));
+    BOOST_CHECK(traits::is_functional::value == true);
+    BOOST_CHECK((std::is_same<traits::return_type, const int&>::value == true));
+    BOOST_CHECK(std::tuple_size<traits::arguments>::value == 2);
+    BOOST_CHECK((std::is_same<traits::arguments, std::tuple<void*, size_t&>>::value == true));
 }
 
 template <typename Func>

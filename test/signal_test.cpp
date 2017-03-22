@@ -54,7 +54,7 @@ BOOST_AUTO_TEST_CASE(DirectSignalToFunctorConnectionTest3)
 
     double value = 0.0;
     src >> forsage::slot(setter<double>(value));
-    
+
     src(42);
     BOOST_CHECK(value == 42.0);
 }
@@ -92,7 +92,7 @@ BOOST_AUTO_TEST_CASE(DirectSignalToSignalConnectionTest3)
 
     int value = 0;
     src >> dst;
-    
+
     dst >> forsage::slot(setter<int>(value));
     src(42.0);
     BOOST_CHECK(value == 42);
@@ -128,7 +128,7 @@ BOOST_AUTO_TEST_CASE(ChainedConnectionTest3)
 
     int value = 0;
     src >> multiplier >> dst;
-    
+
     dst >> forsage::slot(setter<int>(value));
     src(42);
     BOOST_CHECK(value == multiplier(42));
@@ -139,7 +139,7 @@ BOOST_AUTO_TEST_CASE(ChainedConnectionTest4)
     int value = 0;
 
     forsage::signal<int> src;
-    src >> multiplier 
+    src >> multiplier
         >> divider
         >> forsage::slot(setter<int>(value));
 
@@ -156,7 +156,7 @@ BOOST_AUTO_TEST_CASE(ChainedConnectionTest5)
     src >> multiplier
         >> divider
         >> dst;
-    
+
     dst >> forsage::slot(setter<int>(value));
     src(42);
     BOOST_CHECK(value == divider(multiplier(42)));
@@ -186,13 +186,13 @@ BOOST_AUTO_TEST_CASE(LongChainedConnectionTest)
 
     forsage::signal<std::string> src;
     src >> string2int
-        >> multiplier
-        >> multiplier
-        >> multiplier
-        >> divider
-        >> divider
-        >> divider
-        >> forsage::slot(setter<int>(value));
+    >> multiplier
+    >> multiplier
+    >> multiplier
+    >> divider
+    >> divider
+    >> divider
+    >> forsage::slot(setter<int>(value));
 
     src("42");
     BOOST_CHECK(value == 42);
