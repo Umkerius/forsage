@@ -7,13 +7,13 @@
 namespace forsage
 {
 template <typename Func>
-constexpr int check_func()
+constexpr bool check_func()
 {
     using traits = functional_traits<Func>;
     static_assert(traits::is_functional::value, "Object must be callable (function or functor)");
-    static_assert(std::tuple_size<traits::arguments>::value == 1,
+    static_assert(std::tuple_size<typename traits::arguments>::value == 1,
                   "Only single argument signals and functional objects are supported");
-    return 0; // constexpr func must return value
+    return true; // constexpr func must return value
 }
 
 struct connection_if
@@ -24,17 +24,15 @@ struct connection_if
 template <typename T>
 struct connection : public connection_if 
 {
-    connection(std::function<void(T)>&& func = nullptr) : push_next_func(std::move(func)) {}
+    connection(std::function<void(T)>&& func = nullptr) 
+        : m_entry_func(std::move(func)) {}
 
-    void push(const T& value) 
+    void call(const T& value) 
     {
-        if (push_next_func)
-        {
-            push_next_func(value);
-        }
+        m_entry_func(value);
     }
 
-    std::function<void(T)> push_next_func;
+    std::function<void(T)> m_entry_func;
 };
 
 template <typename T>
@@ -48,12 +46,12 @@ struct signal
 {
     void operator()(const T& value) 
     {
-        for (auto& connection : connections)
+        for (auto& connection : m_connections)
         {
-            connection->push(value);
+            connection->call(value);
         }
     }
-    std::list<connection_ptr<T>> connections;
+    std::list<connection_ptr<T>> m_connections;
 };
 
 template <typename T>
@@ -81,14 +79,15 @@ end_point operator>>(signal<T>& src, signal<Y>& dst)
     {
         dst(static_cast<Y>(val));
     };
-    src.connections.emplace_back(std::make_shared<connection<T>>(std::move(conn_func)));
+    src.m_connections.emplace_back(std::make_shared<connection<T>>(std::move(conn_func)));
 
     return end_point();
 }
 
 template <typename T, typename Y>
-void operator>>(signal<T>& src, slot_t<Y>&& dst)
+end_point operator>>(signal<T>& src, slot_t<Y>&& dst)
 {
+    return end_point();
 }
 
 template <typename T, typename Func>
@@ -97,7 +96,7 @@ auto operator>>(signal<T>& src, Func&& dst)
     check_func<Func>();
 
     using traits = functional_traits<Func>;
-    using arg_type = typename std::tuple_element<0, traits::arguments>::type;
+    using arg_type = typename std::tuple_element<0, typename traits::arguments>::type;
 
     return connection_builder<std::function<void(arg_type)>>();
 }
@@ -125,7 +124,7 @@ auto slot(Func&& func)
     check_func<Func>();
 
     using traits = functional_traits<Func>;
-    using arg_type = typename std::tuple_element<0, traits::arguments>::type;
+    using arg_type = typename std::tuple_element<0, typename traits::arguments>::type;
 
     return slot_t<arg_type>(std::forward<Func>(func));
 }
