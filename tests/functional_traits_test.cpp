@@ -1,10 +1,10 @@
 #include <type_traits>
 #include <functional>
 
-#include <boost/test/test_tools.hpp>
-#include <boost/test/unit_test_suite.hpp>
-
 #include <forsage/private/functional_traits.hpp>
+#include <gtest/gtest.h>
+
+#define FUNCTIONAL_TRAITS_TEST(case_name) TEST(FunctionalTraitsTest, case_name)
 
 using forsage::functional_traits;
 
@@ -24,7 +24,7 @@ struct functional_object_const
     int operator()(int) const { return 0; }
 };
 
-BOOST_AUTO_TEST_CASE(FunctionalTraitsTest)
+FUNCTIONAL_TRAITS_TEST(FunctionalTraitsTest)
 {
     decltype(&functional_object::operator()) method;
     decltype(&functional_object_const::operator()) const_method;
@@ -33,61 +33,61 @@ BOOST_AUTO_TEST_CASE(FunctionalTraitsTest)
     const_method = nullptr;
 
     // Basic test
-    BOOST_CHECK(forsage::is_callable<decltype(function)>::value == true);
-    BOOST_CHECK(forsage::is_callable<decltype(42)>::value == false);
-    BOOST_CHECK(forsage::is_callable<decltype(method)>::value == true);
-    BOOST_CHECK(forsage::is_callable<decltype(const_method)>::value == true);
+    ASSERT_TRUE(forsage::is_callable<decltype(function)>::value);
+    ASSERT_FALSE(forsage::is_callable<decltype(42)>::value);
+    ASSERT_TRUE(forsage::is_callable<decltype(method)>::value);
+    ASSERT_TRUE(forsage::is_callable<decltype(const_method)>::value);
 
     // functional_traits test
-    BOOST_CHECK(functional_traits<decltype(function)>::is_functional::value == true);
-    BOOST_CHECK(functional_traits<decltype(42)>::is_functional::value == false);
-    BOOST_CHECK(functional_traits<decltype(ref_function)>::is_functional::value == true);
-    BOOST_CHECK(functional_traits<decltype(cref_function)>::is_functional::value == true);
-    BOOST_CHECK(functional_traits<decltype(method)>::is_functional::value == true);
-    BOOST_CHECK(functional_traits<decltype(const_method)>::is_functional::value == true);
-    BOOST_CHECK(functional_traits<functional_object>::is_functional::value == true);
-    BOOST_CHECK(functional_traits<functional_object_const>::is_functional::value == true);
-    BOOST_CHECK(functional_traits<std::function<int()>>::is_functional::value == true);
-    BOOST_CHECK(functional_traits<decltype(lambda)>::is_functional::value == true);
+    ASSERT_TRUE(functional_traits<decltype(function)>::is_functional::value);
+    ASSERT_FALSE(functional_traits<decltype(42)>::is_functional::value);
+    ASSERT_TRUE(functional_traits<decltype(ref_function)>::is_functional::value);
+    ASSERT_TRUE(functional_traits<decltype(cref_function)>::is_functional::value);
+    ASSERT_TRUE(functional_traits<decltype(method)>::is_functional::value);
+    ASSERT_TRUE(functional_traits<decltype(const_method)>::is_functional::value);
+    ASSERT_TRUE(functional_traits<functional_object>::is_functional::value);
+    ASSERT_TRUE(functional_traits<functional_object_const>::is_functional::value);
+    ASSERT_TRUE(functional_traits<std::function<int()>>::is_functional::value);
+    ASSERT_TRUE(functional_traits<decltype(lambda)>::is_functional::value);
 }
 
-BOOST_AUTO_TEST_CASE(FunctionTraitsTest)
+FUNCTIONAL_TRAITS_TEST(FunctionTraitsTest)
 {
     using traits = functional_traits<decltype(function)>;
 
-    BOOST_CHECK(traits::is_functional::value == true);
-    BOOST_CHECK((std::is_same<traits::return_type, int>::value == true));
-    BOOST_CHECK(std::tuple_size<traits::arguments>::value == 0);
+    ASSERT_TRUE(traits::is_functional::value);
+    ASSERT_TRUE((std::is_same<traits::return_type, int>::value));
+    ASSERT_EQ(std::tuple_size<traits::arguments>::value, 0);
 }
 
-BOOST_AUTO_TEST_CASE(RefFunctionTraitsTest)
+FUNCTIONAL_TRAITS_TEST(RefFunctionTraitsTest)
 {
     using traits = functional_traits<decltype(ref_function)>;
 
-    BOOST_CHECK(traits::is_functional::value == true);
-    BOOST_CHECK((std::is_same<traits::return_type, int&>::value == true));
-    BOOST_CHECK(std::tuple_size<traits::arguments>::value == 2);
-    BOOST_CHECK((std::is_same<traits::arguments, std::tuple<void*, size_t>>::value == true));
+    ASSERT_TRUE(traits::is_functional::value);
+    ASSERT_TRUE((std::is_same<traits::return_type, int&>::value));
+    ASSERT_TRUE((std::is_same<traits::arguments, std::tuple<void*, size_t>>::value));
+    ASSERT_EQ(std::tuple_size<traits::arguments>::value, 2);
 }
 
-BOOST_AUTO_TEST_CASE(CRefFunctionTraitsTest)
+FUNCTIONAL_TRAITS_TEST(CRefFunctionTraitsTest)
 {
     using traits = functional_traits<decltype(cref_function)>;
 
-    BOOST_CHECK(traits::is_functional::value == true);
-    BOOST_CHECK((std::is_same<traits::return_type, const int&>::value == true));
-    BOOST_CHECK(std::tuple_size<traits::arguments>::value == 2);
-    BOOST_CHECK((std::is_same<traits::arguments, std::tuple<void*, size_t&>>::value == true));
+    ASSERT_TRUE(traits::is_functional::value);
+    ASSERT_TRUE((std::is_same<traits::return_type, const int&>::value));
+    ASSERT_TRUE((std::is_same<traits::arguments, std::tuple<void*, size_t&>>::value));
+    ASSERT_EQ(std::tuple_size<traits::arguments>::value, 2);
 }
 
 template <typename Func>
 auto universal_ref_func_checker(Func&& func)
 {
     using traits = functional_traits<Func>;
-    BOOST_CHECK(traits::is_functional::value == true);
+    ASSERT_TRUE(traits::is_functional::value);
 }
 
-BOOST_AUTO_TEST_CASE(UniversalRefFunctionTraitsTest)
+FUNCTIONAL_TRAITS_TEST(UniversalRefFunctionTraitsTest)
 {
     auto foo = [](int) {};
     const auto const_foo = [](int) {};

@@ -1,7 +1,8 @@
 #pragma once
-
 #include <memory>
 #include <list>
+#include <functional>
+
 #include <forsage/private/functional_traits.hpp>
 
 namespace forsage

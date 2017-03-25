@@ -1,6 +1,3 @@
-#include <boost/test/test_tools.hpp>
-#include <boost/test/unit_test_suite.hpp>
-
 #include <vector>
 //#include <forsage/algorithm.hpp>
 //#include <forsage/source.hpp>

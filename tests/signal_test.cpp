@@ -1,9 +1,10 @@
-#include <boost/test/test_tools.hpp>
-#include <boost/test/unit_test_suite.hpp>
-
 #include <string>
 #include <vector>
+
 #include <forsage/signal.hpp>
+#include <gtest/gtest.h>
+
+#define SIGNAL_TEST(case_name) TEST(SignalTest, case_name)
 
 // different functional types for testing purpose
 template <typename T>
@@ -26,7 +27,7 @@ int string2int(const std::string& str)
     return std::stoi(str);
 }
 
-BOOST_AUTO_TEST_CASE(DirectSignalToFunctorConnectionTest)
+SIGNAL_TEST(DirectSignalToFunctorConnectionTest)
 {
     forsage::signal<int> src;
 
@@ -34,10 +35,10 @@ BOOST_AUTO_TEST_CASE(DirectSignalToFunctorConnectionTest)
     src >> forsage::slot(setter<int>(value));
 
     src(42);
-    BOOST_CHECK(value == 42);
+    ASSERT_EQ(value, 42);
 }
 
-BOOST_AUTO_TEST_CASE(DirectSignalToFunctorConnectionTest2)
+SIGNAL_TEST(DirectSignalToFunctorConnectionTest2)
 {
     forsage::signal<int> src;
 
@@ -45,10 +46,10 @@ BOOST_AUTO_TEST_CASE(DirectSignalToFunctorConnectionTest2)
     src >> forsage::slot(setter<int>(value));
 
     src(42);
-    BOOST_CHECK(value == 42);
+    ASSERT_EQ(value, 42);
 }
 
-BOOST_AUTO_TEST_CASE(DirectSignalToFunctorConnectionTest3)
+SIGNAL_TEST(DirectSignalToFunctorConnectionTest3)
 {
     forsage::signal<int> src;
 
@@ -56,10 +57,10 @@ BOOST_AUTO_TEST_CASE(DirectSignalToFunctorConnectionTest3)
     src >> forsage::slot(setter<double>(value));
 
     src(42);
-    BOOST_CHECK(value == 42.0);
+    ASSERT_EQ(value, 42.0);
 }
 
-BOOST_AUTO_TEST_CASE(DirectSignalToSignalConnectionTest)
+SIGNAL_TEST(DirectSignalToSignalConnectionTest)
 {
     forsage::signal<int> src;
     forsage::signal<int> dst;
@@ -69,10 +70,10 @@ BOOST_AUTO_TEST_CASE(DirectSignalToSignalConnectionTest)
     dst >> forsage::slot(setter<int>(value));
 
     src(42);
-    BOOST_CHECK(value == 42);
+    ASSERT_EQ(value, 42);
 }
 
-BOOST_AUTO_TEST_CASE(DirectSignalToSignalConnectionTest2)
+SIGNAL_TEST(DirectSignalToSignalConnectionTest2)
 {
     forsage::signal<double> src;
     forsage::signal<int> dst;
@@ -82,10 +83,10 @@ BOOST_AUTO_TEST_CASE(DirectSignalToSignalConnectionTest2)
     dst >> forsage::slot(setter<int>(value));
 
     src(42.0);
-    BOOST_CHECK(value == 42);
+    ASSERT_EQ(value, 42);
 }
 
-BOOST_AUTO_TEST_CASE(DirectSignalToSignalConnectionTest3)
+SIGNAL_TEST(DirectSignalToSignalConnectionTest3)
 {
     forsage::signal<double> src;
     forsage::signal<int> dst;
@@ -95,10 +96,10 @@ BOOST_AUTO_TEST_CASE(DirectSignalToSignalConnectionTest3)
 
     dst >> forsage::slot(setter<int>(value));
     src(42.0);
-    BOOST_CHECK(value == 42);
+    ASSERT_EQ(value, 42);
 }
 
-BOOST_AUTO_TEST_CASE(ChainedConnectionTest)
+SIGNAL_TEST(ChainedConnectionTest)
 {
     forsage::signal<int> src;
 
@@ -106,10 +107,10 @@ BOOST_AUTO_TEST_CASE(ChainedConnectionTest)
     src >> multiplier >> forsage::slot(setter<int>(value));
 
     src(42);
-    BOOST_CHECK(value == multiplier(42));
+    ASSERT_EQ(value, multiplier(42));
 }
 
-BOOST_AUTO_TEST_CASE(ChainedConnectionTest2)
+SIGNAL_TEST(ChainedConnectionTest2)
 {
     forsage::signal<int> src;
     forsage::signal<int> dst;
@@ -118,10 +119,10 @@ BOOST_AUTO_TEST_CASE(ChainedConnectionTest2)
     int value = 0;
     dst >> forsage::slot(setter<int>(value));
     src(42);
-    BOOST_CHECK(value == multiplier(42));
+    ASSERT_EQ(value, multiplier(42));
 }
 
-BOOST_AUTO_TEST_CASE(ChainedConnectionTest3)
+SIGNAL_TEST(ChainedConnectionTest3)
 {
     forsage::signal<int> src;
     forsage::signal<int> dst;
@@ -131,10 +132,10 @@ BOOST_AUTO_TEST_CASE(ChainedConnectionTest3)
 
     dst >> forsage::slot(setter<int>(value));
     src(42);
-    BOOST_CHECK(value == multiplier(42));
+    ASSERT_EQ(value, multiplier(42));
 }
 
-BOOST_AUTO_TEST_CASE(ChainedConnectionTest4)
+SIGNAL_TEST(ChainedConnectionTest4)
 {
     int value = 0;
 
@@ -144,10 +145,10 @@ BOOST_AUTO_TEST_CASE(ChainedConnectionTest4)
         >> forsage::slot(setter<int>(value));
 
     src(42);
-    BOOST_CHECK(value == divider(multiplier(42)));
+    ASSERT_EQ(value, divider(multiplier(42)));
 }
 
-BOOST_AUTO_TEST_CASE(ChainedConnectionTest5)
+SIGNAL_TEST(ChainedConnectionTest5)
 {
     int value = 0;
 
@@ -159,10 +160,10 @@ BOOST_AUTO_TEST_CASE(ChainedConnectionTest5)
 
     dst >> forsage::slot(setter<int>(value));
     src(42);
-    BOOST_CHECK(value == divider(multiplier(42)));
+    ASSERT_EQ(value, divider(multiplier(42)));
 }
 
-BOOST_AUTO_TEST_CASE(LongChainedConnectionTest)
+SIGNAL_TEST(LongChainedConnectionTest)
 {
     int value = 0;
 
@@ -176,11 +177,11 @@ BOOST_AUTO_TEST_CASE(LongChainedConnectionTest)
         >> forsage::slot(setter<int>(value));
 
     src(42);
-    BOOST_CHECK(value == 42);
+    ASSERT_EQ(value, 42);
 }
 
 // Uncomment after fixing of all tests above
-/*BOOST_AUTO_TEST_CASE(LongChainedConnectionTest2)
+/*SIGNAL_TEST(LongChainedConnectionTest2)
 {
     int value = 0;
 
@@ -195,5 +196,5 @@ BOOST_AUTO_TEST_CASE(LongChainedConnectionTest)
     >> forsage::slot(setter<int>(value));
 
     src("42");
-    BOOST_CHECK(value == 42);
+    ASSERT_EQ(value, 42);
 }*/
