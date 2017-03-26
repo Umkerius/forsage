@@ -3,6 +3,7 @@
 #include <list>
 #include <functional>
 
+#include <forsage/memory_management/utitily.hpp>
 #include <forsage/private/functional_traits.hpp>
 
 namespace forsage
@@ -80,7 +81,7 @@ end_point operator>>(signal<T>& src, signal<Y>& dst)
     {
         dst(static_cast<Y>(val));
     };
-    src.m_connections.emplace_back(std::make_shared<connection<T>>(std::move(conn_func)));
+    src.m_connections.emplace_back(make_shared<connection<T>>(std::move(conn_func)));
 
     return end_point();
 }
