@@ -1,4 +1,5 @@
 #pragma once
+#include <limits>
 #include <forsage/memory_management/memory_management.hpp>
 
 namespace forsage
