@@ -1,8 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env sh
+set -evx
+env | sort
 
-echo "Compiler: `$COMPILER --version`"
-
-mkdir build
+mkdir build || true
 cd build
-cmake ..
-cmake --build . 
+cmake -DCMAKE_CXX_FLAGS=$CXX_FLAGS -DCMAKE_BUILD_TYPE=$BUILD_TYPE ..
+make
+#CTEST_OUTPUT_ON_FAILURE=1 make test
