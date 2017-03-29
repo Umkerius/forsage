@@ -1,12 +1,30 @@
-# Build matrix / environment variable are explained on:
-# http://about.travis-ci.org/docs/user/build-configuration/
-# This file can be validated on:
-# http://lint.travis-ci.org/
+notifications:
+  email: SpiritOfTokamak@gmail.com
+sudo: false
+language: cpp
+
+install:
+  - ${CXX} --version
+  - ${CXX} -v
+  - chmod a+x ./travis_build.sh
+
+matrix:
+  include:
+    - os: linux
+      compiler: gcc
+      install:
+        - if [ "$CXX" = "g++" ]; then export CXX="g++-4.9" CC="gcc-4.9"; fi
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-4.9']
+      env:
+        matrix:
+          - export CXX="g++-4.9" CC="gcc-4.9" BUILD_TYPE=debug VERBOSE_MAKE=true VERBOSE
+          - export CXX="g++-4.9" CC="gcc-4.9" BUILD_TYPE=release VERBOSE_MAKE=true VERBOSE
 
 # install:
-/usr/bin/gcc is 4.6 always, but gcc-X.Y is available.
 # - if [ "$CXX" = "g++" ]; then export CXX="g++-4.9" CC="gcc-4.9"; fi
-/usr/bin/clang is 3.4, lets override with modern one.
 # - if [ "$CXX" = "clang++" ] && [ "$TRAVIS_OS_NAME" = "linux" ]; then export CXX="clang++-3.7" CC="clang-3.7"; fi
 # - echo ${CXX}
 # - ${CXX} --version
@@ -34,25 +52,4 @@
   # matrix:
     # - BUILD_TYPE=debug VERBOSE_MAKE=true VERBOSE
     # - BUILD_TYPE=release VERBOSE_MAKE=true VERBOSE
-notifications:
-  email: SpiritOfTokamak@gmail.com
-sudo: false
 
-install:
-  - ${CXX} --version
-  - ${CXX} -v
-  - chmod a+x ./travis_build.sh
-
-matrix:
-  include:
-    - os: linux
-      compiler: gcc
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-4.9']
-      env:
-        - export CXX="g++-4.9" CC="gcc-4.9"
-        matrix:
-          - BUILD_TYPE=debug VERBOSE_MAKE=true VERBOSE
-          - BUILD_TYPE=release VERBOSE_MAKE=true VERBOSE
