@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 2.8)
 
 macro(enumerate_files_for_humans root_dir patterns output)
   foreach(pattern ${patterns})
