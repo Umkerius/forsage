@@ -57,35 +57,20 @@ matrix:
           sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-6']
       env: BUILD_TYPE=release VERBOSE_MAKE=true VERBOSE
-
-
-# install:
-# - if [ "$CXX" = "g++" ]; then export CXX="g++-4.9" CC="gcc-4.9"; fi
-# - if [ "$CXX" = "clang++" ] && [ "$TRAVIS_OS_NAME" = "linux" ]; then export CXX="clang++-3.7" CC="clang-3.7"; fi
-# - echo ${CXX}
-# - ${CXX} --version
-# - ${CXX} -v
-# - chmod a+x ./travis_build.sh
-# addons:
-  # apt:
-    # sources:
-    # - ubuntu-toolchain-r-test
-    # - llvm-toolchain-precise-3.7
-    # packages:
-    # - gcc-4.9
-    # - g++-4.9
-    # - clang-3.7
-    # - valgrind
-# os:
-  # - linux
-  # - osx
-# language: cpp
-# compiler:
-  # - gcc
-  # - clang
-# script: ./travis_build.sh
-# env:
-  # matrix:
-    # - BUILD_TYPE=debug VERBOSE_MAKE=true VERBOSE
-    # - BUILD_TYPE=release VERBOSE_MAKE=true VERBOSE
-
+    # Clang 3.6 on Linux
+    - os: linux
+      compiler: clang
+      install: ['export CXX="clang++-3.6" CC="clang-3.6"', '${CXX} --version', 'chmod a+x ./travis_build.sh']
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.6']
+          packages: ['clang-3.6']
+      env: BUILD_TYPE=debug VERBOSE_MAKE=true VERBOSE
+    - os: linux
+      compiler: clang
+      install: ['export CXX="clang++-3.6" CC="clang-3.6"', '${CXX} --version', 'chmod a+x ./travis_build.sh']
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.6']
+          packages: ['clang-3.6']
+      env: BUILD_TYPE=release VERBOSE_MAKE=true VERBOSE
