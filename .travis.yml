@@ -6,6 +6,7 @@ script: ./travis_build.sh
 
 matrix:
   include:
+    # GCC 4.9 on Linux
     - os: linux
       compiler: gcc
       install: ['export CXX="g++-4.9" CC="gcc-4.9"', '${CXX} --version', 'chmod a+x ./travis_build.sh']
@@ -21,6 +22,40 @@ matrix:
         apt:
           sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-4.9']
+      env: BUILD_TYPE=release VERBOSE_MAKE=true VERBOSE
+    # GCC 5 on Linux
+    - os: linux
+      compiler: gcc
+      install: ['export CXX="g++-5" CC="gcc-5"', '${CXX} --version', 'chmod a+x ./travis_build.sh']
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-5']
+      env: BUILD_TYPE=debug VERBOSE_MAKE=true VERBOSE
+    - os: linux
+      compiler: gcc
+      install: ['export CXX="g++-5" CC="gcc-5"', '${CXX} --version', 'chmod a+x ./travis_build.sh']
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-5']
+      env: BUILD_TYPE=release VERBOSE_MAKE=true VERBOSE
+    # GCC 6 on Linux
+    - os: linux
+      compiler: gcc
+      install: ['export CXX="g++-6" CC="gcc-6"', '${CXX} --version', 'chmod a+x ./travis_build.sh']
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-6']
+      env: BUILD_TYPE=debug VERBOSE_MAKE=true VERBOSE
+    - os: linux
+      compiler: gcc
+      install: ['export CXX="g++-6" CC="gcc-6"', '${CXX} --version', 'chmod a+x ./travis_build.sh']
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-6']
       env: BUILD_TYPE=release VERBOSE_MAKE=true VERBOSE
 
 
