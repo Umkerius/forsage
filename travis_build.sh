@@ -2,8 +2,11 @@
 set -evx
 env | sort
 
+echo $(pwd)
 mkdir build || true
+echo $(pwd)
 cd build
-cmake -DCMAKE_CXX_FLAGS=$CXX_FLAGS -DCMAKE_BUILD_TYPE=$BUILD_TYPE ..
+echo $(pwd)
+cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE ..
 cmake --build .
 ctest -V
