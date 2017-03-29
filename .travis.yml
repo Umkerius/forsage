@@ -2,16 +2,6 @@ notifications:
   email: SpiritOfTokamak@gmail.com
 sudo: false
 language: cpp
-
-install:
-  - ${CXX} --version
-  - ${CXX} -v
-  - chmod a+x ./travis_build.sh
-  
-env:
-  matrix:
-    - BUILD_TYPE=debug VERBOSE_MAKE=true VERBOSE
-    - BUILD_TYPE=release VERBOSE_MAKE=true VERBOSE
 script: ./travis_build.sh
 
 matrix:
@@ -20,10 +10,17 @@ matrix:
       compiler: gcc
       install:
         - if [ "$CXX" = "g++" ]; then export CXX="g++-4.9" CC="gcc-4.9"; fi
+        - ${CXX} --version
+        - ${CXX} -v
+        - chmod a+x ./travis_build.sh
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-4.9']
+      env:
+        matrix:
+          - BUILD_TYPE=debug VERBOSE_MAKE=true VERBOSE
+          - BUILD_TYPE=release VERBOSE_MAKE=true VERBOSE
 
 
 # install:
