@@ -18,9 +18,20 @@ matrix:
           sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-4.9']
       env:
-        matrix:
-          - BUILD_TYPE=debug VERBOSE_MAKE=true VERBOSE
-          - BUILD_TYPE=release VERBOSE_MAKE=true VERBOSE
+        BUILD_TYPE=debug VERBOSE_MAKE=true VERBOSE
+    - os: linux
+      compiler: gcc
+      install:
+        - if [ "$CXX" = "g++" ]; then export CXX="g++-4.9" CC="gcc-4.9"; fi
+        - ${CXX} --version
+        - ${CXX} -v
+        - chmod a+x ./travis_build.sh
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-4.9']
+      env:
+        BUILD_TYPE=release VERBOSE_MAKE=true VERBOSE
 
 
 # install:
