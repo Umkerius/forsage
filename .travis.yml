@@ -6,10 +6,12 @@ script: ./travis_build.sh
 
 matrix:
   include:
+    # --------------------------------------------------------------------
     # GCC 4.9 on Linux
+    # --------------------------------------------------------------------
     - os: linux
       compiler: gcc
-      install: ['export CXX="g++-4.9" CC="gcc-4.9"', '${CXX} --version', 'chmod a+x ./travis_build.sh']
+      install: ['export CXX="g++-4.9" CC="gcc-4.9"', '${CXX} --version']
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
@@ -17,16 +19,18 @@ matrix:
       env: BUILD_TYPE=debug VERBOSE_MAKE=true VERBOSE
     - os: linux
       compiler: gcc
-      install: ['export CXX="g++-4.9" CC="gcc-4.9"', '${CXX} --version', 'chmod a+x ./travis_build.sh']
+      install: ['export CXX="g++-4.9" CC="gcc-4.9"', '${CXX} --version']
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-4.9']
       env: BUILD_TYPE=release VERBOSE_MAKE=true VERBOSE
+    # --------------------------------------------------------------------
     # GCC 5 on Linux
+    # --------------------------------------------------------------------
     - os: linux
       compiler: gcc
-      install: ['export CXX="g++-5" CC="gcc-5"', '${CXX} --version', 'chmod a+x ./travis_build.sh']
+      install: ['export CXX="g++-5" CC="gcc-5"', '${CXX} --version']
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
@@ -34,16 +38,18 @@ matrix:
       env: BUILD_TYPE=debug VERBOSE_MAKE=true VERBOSE
     - os: linux
       compiler: gcc
-      install: ['export CXX="g++-5" CC="gcc-5"', '${CXX} --version', 'chmod a+x ./travis_build.sh']
+      install: ['export CXX="g++-5" CC="gcc-5"', '${CXX} --version']
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-5']
       env: BUILD_TYPE=release VERBOSE_MAKE=true VERBOSE
+    # --------------------------------------------------------------------
     # GCC 6 on Linux
+    # --------------------------------------------------------------------
     - os: linux
       compiler: gcc
-      install: ['export CXX="g++-6" CC="gcc-6"', '${CXX} --version', 'chmod a+x ./travis_build.sh']
+      install: ['export CXX="g++-6" CC="gcc-6"', '${CXX} --version']
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
@@ -51,16 +57,18 @@ matrix:
       env: BUILD_TYPE=debug VERBOSE_MAKE=true VERBOSE
     - os: linux
       compiler: gcc
-      install: ['export CXX="g++-6" CC="gcc-6"', '${CXX} --version', 'chmod a+x ./travis_build.sh']
+      install: ['export CXX="g++-6" CC="gcc-6"', '${CXX} --version']
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-6']
       env: BUILD_TYPE=release VERBOSE_MAKE=true VERBOSE
+    # --------------------------------------------------------------------
     # Clang 3.6 on Linux
+    # --------------------------------------------------------------------
     - os: linux
       compiler: clang
-      install: ['export CXX="clang++-3.6" CC="clang-3.6"', '${CXX} --version', 'chmod a+x ./travis_build.sh']
+      install: ['export CXX="clang++-3.6" CC="clang-3.6"', '${CXX} --version']
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.6']
@@ -68,9 +76,130 @@ matrix:
       env: BUILD_TYPE=debug VERBOSE_MAKE=true VERBOSE
     - os: linux
       compiler: clang
-      install: ['export CXX="clang++-3.6" CC="clang-3.6"', '${CXX} --version', 'chmod a+x ./travis_build.sh']
+      install: ['export CXX="clang++-3.6" CC="clang-3.6"', '${CXX} --version']
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.6']
           packages: ['clang-3.6']
       env: BUILD_TYPE=release VERBOSE_MAKE=true VERBOSE
+    # --------------------------------------------------------------------
+    # Clang 3.8 on Linux
+    # --------------------------------------------------------------------
+    - os: linux
+      compiler: clang
+      install: ['export CXX="clang++-3.8" CC="clang-3.8"', '${CXX} --version']
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.8']
+          packages: ['clang-3.8']
+      env: BUILD_TYPE=debug VERBOSE_MAKE=true VERBOSE
+    - os: linux
+      compiler: clang
+      install: ['export CXX="clang++-3.8" CC="clang-3.8"', '${CXX} --version']
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.8']
+          packages: ['clang-3.8']
+      env: BUILD_TYPE=release VERBOSE_MAKE=true VERBOSE
+    # --------------------------------------------------------------------
+    # Clang 3.9 on Linux
+    # --------------------------------------------------------------------
+    - os: linux
+      dist: trusty
+      compiler: clang
+      install: ['export CXX="clang++-3.9" CC="clang-3.9"', '${CXX} --version']
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-3.9']
+          packages: ['clang-3.9']
+      env: BUILD_TYPE=debug VERBOSE_MAKE=true VERBOSE
+    - os: linux
+      dist: trusty
+      compiler: clang
+      install: ['export CXX="clang++-3.9" CC="clang-3.9"', '${CXX} --version']
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-3.9']
+          packages: ['clang-3.9']
+      env: BUILD_TYPE=release VERBOSE_MAKE=true VERBOSE
+    # --------------------------------------------------------------------
+    # Clang 4.0 on Linux
+    # --------------------------------------------------------------------
+    - os: linux
+      dist: trusty
+      compiler: clang
+      install: ['export CXX="clang++-4.0" CC="clang-4.0"', '${CXX} --version']
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-4.0']
+          packages: ['clang-4.0']
+      env: BUILD_TYPE=debug VERBOSE_MAKE=true VERBOSE
+    - os: linux
+      dist: trusty
+      compiler: clang
+      install: ['export CXX="clang++-4.0" CC="clang-4.0"', '${CXX} --version']
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-4.0']
+          packages: ['clang-4.0']
+      env: BUILD_TYPE=release VERBOSE_MAKE=true VERBOSE
+    # --------------------------------------------------------------------
+    # XCode 6.4 on OS X
+    # --------------------------------------------------------------------
+    - os: osx
+      osx_image: xcode6.4
+      compiler: clang
+    # --------------------------------------------------------------------
+    # XCode 7.3 on OS X
+    # --------------------------------------------------------------------
+    - os: osx
+      osx_image: xcode7.3
+      compiler: clang
+    # --------------------------------------------------------------------
+    # XCode 8.2 on OS X
+    # --------------------------------------------------------------------
+    - os: osx
+      osx_image: xcode8.2
+      compiler: clang
+    # --------------------------------------------------------------------
+    # XCode 8.3 on OS X
+    # --------------------------------------------------------------------
+    - os: osx
+      osx_image: xcode8.3
+      compiler: clang
+    # --------------------------------------------------------------------
+    # Clang 4.0 on Linux with address sanitizer
+    # --------------------------------------------------------------------
+    - os: linux
+      dist: trusty
+      compiler: clang
+      install: ['export CXX="clang++-4.0" CC="clang-4.0"', '${CXX} --version']
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-4.0']
+          packages: ['clang-4.0']
+      env: BUILD_TYPE=debug VERBOSE_MAKE=true VERBOSE CXX_FLAGS="-fsanitize=address"
+    # --------------------------------------------------------------------
+    # Clang 4.0 on Linux with memory sanitizer
+    # --------------------------------------------------------------------
+    - os: linux
+      dist: trusty
+      compiler: clang
+      install: ['export CXX="clang++-4.0" CC="clang-4.0"', '${CXX} --version']
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-4.0']
+          packages: ['clang-4.0']
+      env: BUILD_TYPE=debug VERBOSE_MAKE=true VERBOSE CXX_FLAGS="-fsanitize=memory"
+    # --------------------------------------------------------------------
+    # Clang 4.0 on Linux with undefined behavior sanitizer
+    # --------------------------------------------------------------------
+    - os: linux
+      dist: trusty
+      compiler: clang
+      install: ['export CXX="clang++-4.0" CC="clang-4.0"', '${CXX} --version']
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-4.0']
+          packages: ['clang-4.0']
+      env: BUILD_TYPE=debug VERBOSE_MAKE=true VERBOSE CXX_FLAGS="-fsanitize=undefined"
