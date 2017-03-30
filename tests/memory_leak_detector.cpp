@@ -25,12 +25,12 @@ void memory_leak_detector::deallocate_proxy(void* ptr)
     return g_memory_manager->deallocate(ptr);
 }
 
-void memory_leak_detector::OnTestStart(const ::testing::TestInfo& test_info)
+void memory_leak_detector::OnTestStart(const ::testing::TestInfo& /*test_info*/)
 {
     m_last_allocation_count = m_mem_manager.get_allocated_objects_count();
 }
 
-void memory_leak_detector::OnTestEnd(const ::testing::TestInfo& test_info)
+void memory_leak_detector::OnTestEnd(const ::testing::TestInfo& /*test_info*/)
 {
     size_t allocation_count = m_mem_manager.get_allocated_objects_count();
     if (allocation_count != m_last_allocation_count)

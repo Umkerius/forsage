@@ -4,10 +4,6 @@
 
 namespace forsage
 {
-
-memory_manager::alloc_func get_default_alloc_func() { return ::malloc; }
-memory_manager::dealloc_func get_default_dealloc_func() { return ::free; }
-
 class memory_manager_impl
 {
 public:
@@ -35,8 +31,8 @@ public:
 
     void reset_mem_functions()
     {
-        m_allocator = get_default_alloc_func();
-        m_deallocator = get_default_dealloc_func();
+        m_allocator = ::malloc;
+        m_deallocator = ::free;
     }
 
 private:
@@ -50,7 +46,7 @@ memory_manager_impl& get_memory_manager()
     return mem_man;
 }
 
-void* memory_manager::allocate(size_t bytes)
+void* memory_manager::allocate(std::size_t bytes)
 {
     return get_memory_manager().allocate(bytes);
 }
@@ -70,5 +66,4 @@ void memory_manager::reset_mem_functions()
 {
     get_memory_manager().reset_mem_functions();
 }
-
 } // namespace forsage

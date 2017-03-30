@@ -23,7 +23,7 @@ struct forsage_allocator
     forsage_allocator() = default;
     forsage_allocator(const forsage_allocator&) = default;
     template <typename U>
-    forsage_allocator(const forsage_allocator<U>&) {};
+    forsage_allocator(const forsage_allocator<U>&) {}
     ~forsage_allocator() = default;
 
     pointer address(reference x) const { return &x; }

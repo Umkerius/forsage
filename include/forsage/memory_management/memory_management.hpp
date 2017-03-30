@@ -5,10 +5,10 @@ namespace forsage
 {
 struct memory_manager
 {
-    using alloc_func = void*(*)(size_t);
+    using alloc_func = void*(*)(std::size_t);
     using dealloc_func = void(*)(void*);
 
-    static void* allocate(size_t bytes);
+    static void* allocate(std::size_t bytes);
     static void deallocate(void* ptr);
 
     // override functions

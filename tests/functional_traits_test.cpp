@@ -11,8 +11,8 @@ using forsage::functional_traits;
 int var = 42;
 
 int function() { return 0; }
-int& ref_function(void* ptr, size_t size) { return var; }
-const int& cref_function(void* ptr, size_t& size) { return var; }
+int& ref_function(void*, size_t) { return var; }
+const int& cref_function(void*, size_t&) { return var; }
 
 struct functional_object
 {
@@ -57,7 +57,7 @@ FUNCTIONAL_TRAITS_TEST(FunctionTraitsTest)
 
     ASSERT_TRUE(traits::is_functional::value);
     ASSERT_TRUE((std::is_same<traits::return_type, int>::value));
-    ASSERT_EQ(std::tuple_size<traits::arguments>::value, 0);
+    ASSERT_EQ(std::tuple_size<traits::arguments>::value, 0u);
 }
 
 FUNCTIONAL_TRAITS_TEST(RefFunctionTraitsTest)
@@ -67,7 +67,7 @@ FUNCTIONAL_TRAITS_TEST(RefFunctionTraitsTest)
     ASSERT_TRUE(traits::is_functional::value);
     ASSERT_TRUE((std::is_same<traits::return_type, int&>::value));
     ASSERT_TRUE((std::is_same<traits::arguments, std::tuple<void*, size_t>>::value));
-    ASSERT_EQ(std::tuple_size<traits::arguments>::value, 2);
+    ASSERT_EQ(std::tuple_size<traits::arguments>::value, 2u);
 }
 
 FUNCTIONAL_TRAITS_TEST(CRefFunctionTraitsTest)
@@ -77,11 +77,11 @@ FUNCTIONAL_TRAITS_TEST(CRefFunctionTraitsTest)
     ASSERT_TRUE(traits::is_functional::value);
     ASSERT_TRUE((std::is_same<traits::return_type, const int&>::value));
     ASSERT_TRUE((std::is_same<traits::arguments, std::tuple<void*, size_t&>>::value));
-    ASSERT_EQ(std::tuple_size<traits::arguments>::value, 2);
+    ASSERT_EQ(std::tuple_size<traits::arguments>::value, 2u);
 }
 
 template <typename Func>
-auto universal_ref_func_checker(Func&& func)
+auto universal_ref_func_checker(Func&&)
 {
     using traits = functional_traits<Func>;
     ASSERT_TRUE(traits::is_functional::value);
