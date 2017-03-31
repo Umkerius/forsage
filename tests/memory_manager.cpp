@@ -1,4 +1,5 @@
 #include "memory_manager.hpp" 
+#include <cstdlib>
 
 void* memory_manager::allocate(size_t size)
 {
