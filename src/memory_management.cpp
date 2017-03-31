@@ -1,6 +1,5 @@
 #include <forsage/memory_management/memory_management.hpp>
-
-#include <memory>
+#include <cstdlib>
 
 namespace forsage
 {
@@ -31,8 +30,8 @@ public:
 
     void reset_mem_functions()
     {
-        m_allocator = ::malloc;
-        m_deallocator = ::free;
+        m_allocator = std::malloc;
+        m_deallocator = std::free;
     }
 
 private:
