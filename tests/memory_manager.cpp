@@ -4,7 +4,7 @@ void* memory_manager::allocate(size_t size)
 {
     std::unique_lock<std::mutex> lock(m_mutex);
 
-    void* ptr = ::malloc(size);
+    void* ptr = std::malloc(size);
     m_allocated_memory[ptr] = size;
     return ptr;
 }
@@ -12,7 +12,7 @@ void* memory_manager::allocate(size_t size)
 void memory_manager::deallocate(void* pointer)
 {
     std::unique_lock<std::mutex> lock(m_mutex);
-    ::free(pointer);
+    std::free(pointer);
     m_allocated_memory.erase(pointer);
 }
 
