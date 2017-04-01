@@ -1,6 +1,5 @@
 #!/usr/bin/env sh
 set -evx
-env | sort
 
 mkdir build
 cd build
