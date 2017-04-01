@@ -36,6 +36,7 @@ target_link_libraries(${test_target} ${PROJECT_NAME} gtest)
 add_dependencies(${test_target} ${PROJECT_NAME} gtest)
 add_test(${test_target} ${test_target})
 
+message("additional_cxx_flags: ${additional_cxx_flags}")
 message("CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
 message("CMAKE_CXX_FLAGS_DEBUG: ${CMAKE_CXX_FLAGS_DEBUG}")
 message("CMAKE_CXX_FLAGS_RELEASE: ${CMAKE_CXX_FLAGS_RELEASE}")
