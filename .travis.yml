@@ -203,3 +203,23 @@ matrix:
           sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-4.0']
           packages: ['clang-4.0']
       env: BUILD_TYPE=debug VERBOSE_MAKE=true VERBOSE CXX_FLAGS="-fsanitize=undefined"
+    # --------------------------------------------------------------------
+    # Code coverage
+    # --------------------------------------------------------------------
+    - os: linux
+      compiler: gcc
+      install: ['export CXX="g++-6" CC="gcc-6"', '${CXX} --version']
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-6']
+      before_script:
+        - pip install --user urllib3[secure] cpp-coveralls
+        # Work around https://github.com/eddyxu/cpp-coveralls/issues/108 by manually
+        # installing the pyOpenSSL module and injecting it into urllib3 as per
+        # https://urllib3.readthedocs.io/en/latest/user-guide.html#ssl-py2
+        - sed -i -e '/^import sys$/a import urllib3.contrib.pyopenssl\nurllib3.contrib.pyopenssl.inject_into_urllib3()' $(which coveralls)
+      after_success:
+        - coveralls --gcov gcov-6 --gcov-options '\-lp'
+      env: BUILD_TYPE=debug VERBOSE_MAKE=true VERBOSE CXX_FLAGS="-fsanitize=undefined -O0 --coverage"
+      
