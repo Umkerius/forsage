@@ -214,7 +214,7 @@ matrix:
           sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-6']
       before_script:
-        - pip install --user cpp-coveralls
+        - pip install --user urllib3[secure] cpp-coveralls
         # Work around https://github.com/eddyxu/cpp-coveralls/issues/108 by manually
         # installing the pyOpenSSL module and injecting it into urllib3 as per
         # https://urllib3.readthedocs.io/en/latest/user-guide.html#ssl-py2
